@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicPlayer</title>
+    <link rel="icon" href="images/Title.jpg" type="images/Title.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="main-div">
+        <div class="music_container">
+            <h2 id="title">LOTUS LANE</h2>
+            <h3 id="artist">The LOyalist</h3>
+            <div class="img_container">
+                <img src="images/music-1 (1).jpg" alt="">
+            </div>
+            <audio src="music/music-1 (1).mp3"></audio>
+            <div class="music_control">
+                <i class="fa-solid fa-backward" id="prev" title="previous"></i>
+                <i class="fa-solid fa-circle-play main_button" id="play" title="play"></i>
+                <i class="fa-solid fa-forward" id="next" title="next"></i>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector("audio");
+        const img = document.querySelector("img");
+        const play = document.getElementById('play');
+        const artist = document.getElementById('artist');
+        const title = document.getElementById('title');
+        const next = document.getElementById('next');
+        const prev = document.getElementById('prev');
+
+        const songs = [
+            {
+            name: "music-1 (1)",
+            title:" Mere Sohneya",
+            artist:"Sachet Tandon & Parampara Thakur",
+        },
+        {
+            name:"music-1 (2)",
+            title:"Tujhe Kitna Chahein Aur Hum",
+            artist:"Jubin Nautiyal",
+        },
+        {
+            name:"music-1 (3)",
+            title:"Teri Ban Jaungi",
+            artist:"Tulsi Kumar",
+        }
+    ]
+        
+        let isPlaying = false;
+        // for play function
+        const  playMusic = ()=>{
+            
+            isPlaying = true;
+            music.play();
+            play.classList.replace('fa-circle-play','fa-circle-pause');
+            img.classList.add("anime");
+        };
+
+        //for pause function
+        const pauseMusic = ()=>{
+            
+            isPlaying = false;
+            music.pause();
+            play.classList.replace('fa-circle-pause','fa-circle-play');
+            img.classList.remove("anime");
+        };
+
+        play.addEventListener('click' , () => {
+            if(isPlaying){
+                pauseMusic();
+            }
+            else{
+                playMusic();
+            }
+        });
+
+        // changing the music data
+        const loadSong = (songs) => {
+            title.textContent = songs.title;
+            artist.textContent = songs.artist;
+            music.src = "music/"+ songs.name + ".mp3";
+            img.src = "images/" + songs.name + ".jpg";
+        };
+        //loadSong(songs[0]);
+        songIndex = 0;
+
+        const nextSong = () => {
+            songIndex = (songIndex + 1) %songs.length;
+            
+            loadSong(songs[songIndex]);
+            playMusic();
+        };
+
+        const prevSong = () => {
+            songIndex = (songIndex - 1 + songs.length) % songs.length;
+            
+            loadSong(songs[songIndex]);
+            playMusic();
+        };
+
+        next.addEventListener('click', nextSong);
+        prev.addEventListener('click', prevSong);
+    </script>
+    
+</body>
+</html>
